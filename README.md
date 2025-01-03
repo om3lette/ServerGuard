@@ -19,7 +19,6 @@ pip install -r requirements.txt
 #### Windows
 ```
 python -m src.main
-
 ```
 #### Linux
 ```commandline
@@ -27,6 +26,15 @@ python3 -m src.main
 ```
 ### Docker
 ```commandline
-sudo docker build -t ServerGuard .
-sudo docker run -d ServerGuard
+sudo docker build -t server-guard .
+sudo docker run -d --rm --name server-guard \
+-e SERVER_ADDRESS "<YOUR_VALUE>" \
+-e BOT_TOKER "<YOUR_TOKEN>" \
+-e ADMINS "<OPTIONAL>" \
+-e ADMIN_IDS "<OPTIONAL>" \
+server-guard
+```
+Также можно собирать изображение напрямую из репозитория
+```
+sudo docker build -t server-guard https://github.com/om3lette/ServerGuard.git
 ```

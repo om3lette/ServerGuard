@@ -11,7 +11,6 @@ class ExitStatus(IntEnum):
 
 load_dotenv()
 
-
 SERVER_ADDRESS: str = os.getenv("SERVER_ADDRESS", "")
 BOT_TOKEN: str = os.getenv("BOT_TOKEN", "")
 

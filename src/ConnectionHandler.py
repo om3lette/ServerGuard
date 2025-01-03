@@ -28,9 +28,9 @@ class ConnectionHandler:
                 logging.error(f"Ping №{attempt_number} failed")
                 # Attempt number, is attempt final
                 await error_callback(attempt_number, attempt_number == MAX_RETRIES)
-                attempt_number += 1
                 if attempt_number != MAX_RETRIES:
                     await asyncio.sleep(SECONDS_BETWEEN_RETRIES)
+                attempt_number += 1
         logging.critical("Server is down. Calling admins")
         return False
 
