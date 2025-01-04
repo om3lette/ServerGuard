@@ -37,9 +37,9 @@ class ConnectionHandler:
     async def get_status_players(self) -> JavaStatusPlayers:
         return (await self.connection.async_status()).players
 
-    async def query_players(self):
+    async def query_server(self):
         try:
-            return (await self.connection.async_query()).players
+            return await self.connection.async_query()
         except TimeoutError:
             logging.critical("'query' has to be enabled in a server's server.properties file!")
             return None

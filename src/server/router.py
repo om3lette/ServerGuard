@@ -1,6 +1,7 @@
 from aiogram import Router
 from aiogram.filters import Command
 from aiogram.types import Message
+from aiogram.enums import ParseMode
 
 from src.handlers import connection_handler
 from src.response_messages import PING_SUCCESS_MESSAGE, PLAYERS_NUMBER_MESSAGE, PLAYERS_ONLINE_MESSAGE, \
@@ -27,11 +28,11 @@ async def players_number(message: Message):
 
 @server_router.message(Command("players_online"))
 async def players_list(message: Message):
-    [is_alive, players_query] = await connection_handler.execute(message, connection_handler.query_players)
+    [is_alive, players_query] = await connection_handler.execute(message, connection_handler.query_server)
     if not is_alive:
         return
     if players_query is None:
-        await message.reply(QUERY_NOT_ENABLED_ERROR_MESSAGE)
+        await message.reply(QUERY_NOT_ENABLED_ERROR_MESSAGE, parse_mode=ParseMode.MARKDOWN_V2)
         return
     players_ol: list[str] = [f"{i}. {username}" for i, username in enumerate(players_query.players.names, 1)]
     players_text: str = "\n".join(players_ol) if len(players_ol) != 0 else NO_PLAYERS_ONLINE_MESSAGE
