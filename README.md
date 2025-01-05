@@ -1,9 +1,16 @@
 # ServerGuard
+## Настройка сервера
+Работоспособность некоторых команд зависит от настройки сервера (`server.properties`)\
+### Для использования команд: `players_online`
+Включить query `enable_query=true`, по необходимости указать ip сервера `server_ip=<ip_сервера>`
+### Для использования команд: `execute`
+Включить rcon: `enable_rcon=true`
 ## Функционал
 - [x] Просмотр статуса сервера (офлайн/онлайн)
 - [x] Просмотр количества игроков на сервере
 - [x] Просмотр имен игроков на сервере
 - [x] Оповещение админов о падении сервера в случае офлайн статуса
+- [x] Удаленное исполнение команд администраторами
 ## Как запустить
 1. Склонировать репозиторий
 ```bash
@@ -29,10 +36,11 @@ python3 -m src.main
 sudo docker build -t server-guard .
 sudo docker run -d --rm --name server-guard \
 -e SERVER_ADDRESS "<YOUR_VALUE>" \
--e BOT_TOKER "<YOUR_TOKEN>" \
+-e BOT_TOKEN "<YOUR_TOKEN>" \
 -e ADMINS "<OPTIONAL>" \
 -e ADMIN_IDS "<OPTIONAL>" \
--e RCON_PASSWORD "<OPTIONAL>"
+-e RCON_PASSWORD "<OPTIONAL>" \
+-e RCON_PORT "<OPTIONAL>"
 server-guard
 ```
 Также можно собирать изображение напрямую из репозитория

@@ -4,7 +4,6 @@ import logging
 
 from src.server.router import server_router
 from src.bot import bot
-from src.handlers import rcon_handler
 
 from aiogram import Dispatcher
 

@@ -1,20 +1,21 @@
 import logging
 
 import aiomcrcon
-from src.constants import SERVER_ADDRESS
+from src.constants import SERVER_ADDRESS, RCON_PORT
 
 
 class RconHandler:
     def __init__(self, rcon_password: str):
-        self.password = rcon_password
+        self.__password: str = rcon_password
+        self.__address: str = SERVER_ADDRESS.split(':')[0]
 
     @property
     def is_configured(self):
-        return self.password is not None and self.password != ""
+        return self.__password is not None and self.__password != ""
 
     async def execute(self, command: str) -> str | None:
         try:
-            async with aiomcrcon.Client(SERVER_ADDRESS, self.password) as client:
+            async with aiomcrcon.Client(self.__address, self.__password, RCON_PORT) as client:
                 return await client.command(command.replace('/', '', 1))
         except (OSError, TimeoutError) as e:
             if e == OSError:

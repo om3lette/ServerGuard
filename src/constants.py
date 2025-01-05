@@ -13,6 +13,7 @@ load_dotenv()
 
 SERVER_ADDRESS: str = os.getenv("SERVER_ADDRESS", "")
 RCON_PASSWORD: str = os.getenv("RCON_PASSWORD", "")
+RCON_PORT: int = int(os.getenv("RCON_PORT", 25575))
 BOT_TOKEN: str = os.getenv("BOT_TOKEN", "")
 
 ADMINS: list[str] = [f"@{admin_username}" for admin_username in os.getenv("ADMINS", "").split()]
