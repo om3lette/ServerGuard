@@ -3,9 +3,9 @@ from aiogram.filters import Command
 from aiogram.types import Message
 from aiogram.enums import ParseMode
 
-from src.handlers import connection_handler
-from src.response_messages import PING_SUCCESS_MESSAGE, PLAYERS_NUMBER_MESSAGE, PLAYERS_ONLINE_MESSAGE, \
-    QUERY_NOT_ENABLED_ERROR_MESSAGE, NO_PLAYERS_ONLINE_MESSAGE
+from src.constants import ADMIN_IDS
+from src.handlers import connection_handler, rcon_handler
+from src.response_messages import *
 
 server_router: Router = Router()
 
@@ -37,3 +37,19 @@ async def players_list(message: Message):
     players_ol: list[str] = [f"{i}. {username}" for i, username in enumerate(players_query.players.names, 1)]
     players_text: str = "\n".join(players_ol) if len(players_ol) != 0 else NO_PLAYERS_ONLINE_MESSAGE
     await message.reply(PLAYERS_ONLINE_MESSAGE.format(players=players_text))
+
+
+@server_router.message(Command("execute"))
+async def execute_command(message: Message):
+    if not rcon_handler.is_configured:
+        await message.reply(FEATURE_WAS_NOT_SETUP_MESSAGE)
+        return
+    if message.from_user.id not in ADMIN_IDS:
+        await message.reply(PERMISSION_LEVEL_TOO_LOW_MESSAGE)
+        return
+    data: list[str] = message.text.split(' ', 1)
+    if len(data) == 1:
+        await message.reply(INCORRECT_RCON_COMMAND_FORMAT_MESSAGE, parse_mode=ParseMode.MARKDOWN_V2)
+        return
+    response: str = await rcon_handler.execute(data[1]) or GENERAL_FAILURE_MESSAGE
+    await message.reply(f"```Server\n{response}```", parse_mode=ParseMode.MARKDOWN_V2)
