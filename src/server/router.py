@@ -41,11 +41,15 @@ async def players_list(message: Message):
 
 @server_router.message(Command("execute"))
 async def execute_command(message: Message):
+    if not rcon_handler.is_configured:
+        await message.reply(FEATURE_WAS_NOT_SETUP_MESSAGE)
+        return
     if message.from_user.id not in ADMIN_IDS:
         await message.reply(PERMISSION_LEVEL_TOO_LOW_MESSAGE)
         return
     data: list[str] = message.text.split(' ', 1)
     if len(data) == 1:
         await message.reply(INCORRECT_RCON_COMMAND_FORMAT_MESSAGE, parse_mode=ParseMode.MARKDOWN_V2)
-    response: str | None = await rcon_handler.execute(data[1])
-    await message.reply(response or GENERAL_FAILURE_MESSAGE)
+        return
+    response: str = await rcon_handler.execute(data[1]) or GENERAL_FAILURE_MESSAGE
+    await message.reply(f"```Server\n{response}```", parse_mode=ParseMode.MARKDOWN_V2)

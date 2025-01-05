@@ -32,6 +32,7 @@ sudo docker run -d --rm --name server-guard \
 -e BOT_TOKER "<YOUR_TOKEN>" \
 -e ADMINS "<OPTIONAL>" \
 -e ADMIN_IDS "<OPTIONAL>" \
+-e RCON_PASSWORD "<OPTIONAL>"
 server-guard
 ```
 Также можно собирать изображение напрямую из репозитория
