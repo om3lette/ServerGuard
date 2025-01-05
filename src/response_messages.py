@@ -14,3 +14,7 @@ QUERY_NOT_ENABLED_ERROR_MESSAGE: str = (
                                         )
 NO_PLAYERS_ONLINE_MESSAGE: str = "Тут никого нет 😭"
 NO_ADMINS_FOUND_MESSAGE: str = "Админы для сервера не указаны 😢"
+
+PERMISSION_LEVEL_TOO_LOW_MESSAGE: str = "Недостаточно прав для совершения действия"
+INCORRECT_RCON_COMMAND_FORMAT_MESSAGE: str = "Некорректный формат ввода```\n/execute <команда>```"
+GENERAL_FAILURE_MESSAGE: str = "Произошла ошибка 🫣"

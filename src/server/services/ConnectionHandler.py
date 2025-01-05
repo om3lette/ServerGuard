@@ -6,10 +6,10 @@ from typing import Callable
 
 from mcstatus.status_response import JavaStatusPlayers
 
-from .constants import MAX_RETRIES, SECONDS_BETWEEN_RETRIES
+from src.constants import MAX_RETRIES, SECONDS_BETWEEN_RETRIES
 from aiogram.types import Message
 
-from .utils import default_ping_error_callback
+from src.utils import default_ping_error_callback
 
 
 class ConnectionHandler:
