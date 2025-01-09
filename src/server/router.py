@@ -51,5 +51,9 @@ async def execute_command(message: Message):
     if len(data) == 1:
         await message.reply(INCORRECT_RCON_COMMAND_FORMAT_MESSAGE, parse_mode=ParseMode.MARKDOWN_V2)
         return
-    response: str = await rcon_handler.execute(data[1]) or GENERAL_FAILURE_MESSAGE
+    response: str = await rcon_handler.execute(data[1])
+    if response is None:
+        response = GENERAL_FAILURE_MESSAGE
+    elif response == "":
+        response = COMMAND_EXECUTED_SUCCESSFULLY_MESSAGE
     await message.reply(f"```Server\n{response}```", parse_mode=ParseMode.MARKDOWN_V2)
