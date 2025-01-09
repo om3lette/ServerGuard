@@ -20,9 +20,9 @@ git clone https://github.com/om3lette/ServerGuard.git
 ```commandline
 pip install -r requirements.txt
 ```
-3. Укажите переменные окружения в `Dockerfile` или `.env`
-4. Запустите локально
+3. Запустите локально
 ### Python
+Укажите переменные окружения в команде для в `.env`
 #### Windows
 ```
 python -m src.main
@@ -34,6 +34,13 @@ python3 -m src.main
 ### Docker
 ```commandline
 sudo docker build -t server-guard .
+```
+Или из репозитория
+```commandline
+sudo docker build -t server-guard https://github.com/om3lette/ServerGuard.git
+```
+Укажите переменные окружения в команде для `Docker` и запустите
+```commandline
 sudo docker run -d --rm --name server-guard \
 -e SERVER_ADDRESS "<YOUR_VALUE>" \
 -e BOT_TOKEN "<YOUR_TOKEN>" \
@@ -42,8 +49,3 @@ sudo docker run -d --rm --name server-guard \
 -e RCON_PASSWORD "<OPTIONAL>" \
 -e RCON_PORT "<OPTIONAL>"
 server-guard
-```
-Также можно собирать изображение напрямую из репозитория
-```
-sudo docker build -t server-guard https://github.com/om3lette/ServerGuard.git
-```
