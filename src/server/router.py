@@ -3,6 +3,7 @@ from aiogram.filters import Command
 from aiogram.types import Message
 from aiogram.enums import ParseMode
 
+from src.buttons.builders import players_markup_builder
 from src.constants import ADMIN_IDS
 from src.handlers import connection_handler, rcon_handler
 from src.response_messages import *
@@ -34,9 +35,11 @@ async def players_list(message: Message):
     if players_query is None:
         await message.reply(QUERY_NOT_ENABLED_ERROR_MESSAGE, parse_mode=ParseMode.MARKDOWN_V2)
         return
-    players_ol: list[str] = [f"{i}. {username}" for i, username in enumerate(players_query.players.names, 1)]
-    players_text: str = "\n".join(players_ol) if len(players_ol) != 0 else NO_PLAYERS_ONLINE_MESSAGE
-    await message.reply(PLAYERS_ONLINE_MESSAGE.format(players=players_text))
+    if len(players_query.players.names) == 0:
+        await message.reply(PLAYERS_ONLINE_MESSAGE + '\n' + NO_PLAYERS_ONLINE_MESSAGE)
+        return
+    new_markup, exit_status = players_markup_builder.build(players_query.players.names, 0)
+    await message.reply(PLAYERS_ONLINE_MESSAGE, reply_markup=new_markup)
 
 
 @server_router.message(Command("execute"))

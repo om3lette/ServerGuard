@@ -47,5 +47,9 @@ sudo docker run -d --rm --name server-guard \
 -e ADMINS "<OPTIONAL>" \
 -e ADMIN_IDS "<OPTIONAL>" \
 -e RCON_PASSWORD "<OPTIONAL>" \
--e RCON_PORT "<OPTIONAL>"
+-e RCON_PORT <OPTIONAL> \
+-e SERVER_NAME "<OPTIONAL>"
 server-guard
+```
+Также доступен `compose.yaml` файл для запуска образа.\
+При использовании `compose` рекомендуется объединить сервер и `ServerGuard` в одном `compose` файле при условии, что сервер также запущен с использованием `Docker`
