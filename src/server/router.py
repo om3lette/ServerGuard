@@ -35,7 +35,7 @@ async def players_list(message: Message):
     if not is_alive:
         return
     players: JavaStatusPlayers = server_status.players
-    if len(players.sample) == 0:
+    if players.sample is None or len(players.sample) == 0:
         await message.reply(PLAYERS_ONLINE_MESSAGE + '\n' + NO_PLAYERS_ONLINE_MESSAGE)
         return
     usernames: list[str] = [player.name for player in players.sample]

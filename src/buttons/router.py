@@ -6,6 +6,7 @@ from src.buttons.builders import players_markup_builder
 from src.buttons.schemas.button_callbacks import PaginationNav
 from src.buttons.services.PaginatorFactory import PaginatorExitStatus
 from src.handlers import connection_handler
+from src.response_messages import PLAYERS_ONLINE_MESSAGE, NO_PLAYERS_ONLINE_MESSAGE
 
 buttons_router: Router = Router()
 
@@ -17,6 +18,10 @@ async def handle_navigation(call: CallbackQuery):
 async def handle_navigation(call: CallbackQuery, callback_data: PaginationNav):
     [is_alive, server_status] = await connection_handler.execute(call.message, connection_handler.get_server_status)
     if not is_alive:
+        return
+    if server_status.players.sample is None:
+        await call.message.edit_text(PLAYERS_ONLINE_MESSAGE + '\n' + NO_PLAYERS_ONLINE_MESSAGE)
+        await call.message.edit_reply_markup(reply_markup=None)
         return
     usernames: list[str] = [player.name for player in server_status.players.sample]
     new_markup, exit_status = players_markup_builder.build(usernames, callback_data.page)
