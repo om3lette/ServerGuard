@@ -21,8 +21,8 @@ class PaginatorBuilder:
     def __init__(self, config: PaginatorConfig):
         self.config: PaginatorConfig = config
 
-    def build(self, data: list[any], page_index: int) -> [InlineKeyboardMarkup, PaginatorExitStatus]:
-        if self.prev_page_index == page_index:
+    def build(self, data: list[any], page_index: int, force_render: bool = False) -> [InlineKeyboardMarkup, PaginatorExitStatus]:
+        if self.prev_page_index == page_index and not force_render:
             return None, PaginatorExitStatus.ALREADY_UP_TO_DATE
         keyboard_builder: InlineKeyboardBuilder = InlineKeyboardBuilder()
         items_per_page: int = self.config.items_per_row * self.config.number_of_rows

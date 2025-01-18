@@ -2,6 +2,7 @@ from aiogram import Router
 from aiogram.filters import Command
 from aiogram.types import Message
 from aiogram.enums import ParseMode
+from mcstatus.status_response import JavaStatusPlayers
 
 from src.buttons.builders import players_markup_builder
 from src.constants import ADMIN_IDS
@@ -21,24 +22,24 @@ async def check_server_status(message: Message):
 
 @server_router.message(Command("current_online"))
 async def players_number(message: Message):
-    [is_alive, players] = await connection_handler.execute(message, connection_handler.get_status_players)
+    [is_alive, status] = await connection_handler.execute(message, connection_handler.get_server_status)
     if not is_alive:
         return
+    players: JavaStatusPlayers = status.players
     await message.reply(PLAYERS_NUMBER_MESSAGE.format(current_number=players.online, capacity=players.max))
 
 
 @server_router.message(Command("players_online"))
 async def players_list(message: Message):
-    [is_alive, players_query] = await connection_handler.execute(message, connection_handler.query_server)
+    [is_alive, server_status] = await connection_handler.execute(message, connection_handler.get_server_status)
     if not is_alive:
         return
-    if players_query is None:
-        await message.reply(QUERY_NOT_ENABLED_ERROR_MESSAGE, parse_mode=ParseMode.MARKDOWN_V2)
-        return
-    if len(players_query.players.names) == 0:
+    players: JavaStatusPlayers = server_status.players
+    if len(players.sample) == 0:
         await message.reply(PLAYERS_ONLINE_MESSAGE + '\n' + NO_PLAYERS_ONLINE_MESSAGE)
         return
-    new_markup, exit_status = players_markup_builder.build(players_query.players.names, 0)
+    usernames: list[str] = [player.name for player in players.sample]
+    new_markup, exit_status = players_markup_builder.build(usernames, 0, True)
     await message.reply(PLAYERS_ONLINE_MESSAGE, reply_markup=new_markup)
 
 

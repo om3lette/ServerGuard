@@ -3,7 +3,7 @@ import asyncio
 import logging
 
 from src.buttons.router import buttons_router
-from src.constants import DEV_MOD
+from src.constants import DEV_MODE
 from src.server.router import server_router
 from src.bot import bot
 
@@ -17,5 +17,10 @@ async def main() -> None:
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG if DEV_MOD else logging.INFO, stream=sys.stdout)
+    logging.basicConfig(
+        format='%(asctime)s |%(levelname)s| %(name)s: %(message)s',
+        datefmt='%H:%M:%S %d.%m.%Y',
+        level=logging.DEBUG if DEV_MODE else logging.INFO,
+        stream=sys.stdout
+    )
     asyncio.run(main())

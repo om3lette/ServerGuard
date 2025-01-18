@@ -11,7 +11,7 @@ class ExitStatus(IntEnum):
 
 load_dotenv()
 
-DEV_MOD: bool = bool(os.getenv("DEV_MODE", False))
+DEV_MODE: bool = bool(os.getenv("DEV_MODE", False))
 SERVER_ADDRESS: str = os.getenv("SERVER_ADDRESS", "")
 RCON_PASSWORD: str = os.getenv("RCON_PASSWORD", "")
 RCON_PORT: int = int(os.getenv("RCON_PORT", 25575))
